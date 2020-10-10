@@ -1,9 +1,12 @@
 package com.example.quizz;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -33,5 +36,29 @@ public class AddQuestion extends AppCompatActivity {
         {
             Toast.makeText(this,"Remplir toutes les champs SVP !", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void AddProposition(View view) {
+        //custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_add_proposition);
+        dialog.setTitle("Title");
+        Button AjouterButton = (Button) dialog.findViewById(R.id.dialogButtonAjouter);
+        Button EffacerButton = (Button) dialog.findViewById(R.id.dialogButtonEffacer);
+        final EditText proposition = (EditText) findViewById(R.id.proposition_dialog);
+        AjouterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        EffacerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                proposition.setText(" ");
+            }
+        });
+        dialog.show();
     }
 }

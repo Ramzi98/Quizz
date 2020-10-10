@@ -1,13 +1,16 @@
 package com.example.quizz;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +24,12 @@ import com.example.quizz.Adapter.PropositionsAdapter;
 import com.example.quizz.DataBase.AppDatabase;
 import com.example.quizz.DataBase.Quizz;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+
+import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView.Adapter GestionAdapter;
@@ -30,11 +37,12 @@ public class MainActivity extends AppCompatActivity {
     AppDatabase DB;
     List<com.example.quizz.DataBase.Quizz> Quizzs;
     DOMQuizz DOMQuizz;
-    int CurrentQuestion = 0;
+    private int CurrentQuestion = 0;
+    private int score = 0;
     RecyclerView.Adapter PropositionAdapter;
     RecyclerView recyclerView;
-    TextView question;
-    String type_question = null;
+    TextView question,timer;
+    Boolean supprimer = false;
     int prop = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
+        timer =(TextView) findViewById(R.id.timer);
         DB = Room.databaseBuilder(getApplicationContext() , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
-        Quizzs = DB.quizzDAO().getAllQuizzs();
         GestionAdapter = new GestionAdapter(this,Quizzs);
+        RecupererQuizz();
         //Récuperations des données XML depuis le site
         if(Quizzs.size() == 0)
         {
@@ -57,9 +66,12 @@ public class MainActivity extends AppCompatActivity {
         {
             UpdateQuestion();
         }
-
     }
 
+    private void RecupererQuizz()
+    {
+        Quizzs = DB.quizzDAO().getAllQuizzs();
+    }
     private void UpdateQuestion() {
         question =findViewById(R.id.question_main);
         question.setText(Quizzs.get(CurrentQuestion).getQuestion());
@@ -70,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
         prop += Quizzs.get(CurrentQuestion).getNombre_proposition();
     }
 
+    public void supprimerAllQuizz() {
+        if(supprimer)
+        {
+            DB.quizzDAO().deleteAll();
+            Toast.makeText(this,"Vous avez Supprimer tous les quizz !", Toast.LENGTH_LONG).show();
+            UpdateQuestion();
+            supprimer = false;
+        }
+    }
     public void Question_Suivante(View view) {
 
         if(CurrentQuestion < Quizzs.size()-1)
@@ -79,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     public void Add_New_Quizz(ArrayList<com.example.quizz.DataBase.Quizz> quizz) {
         String question ;
         int nombre_propositions;
@@ -121,8 +141,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent_gestion);
                 return true;
             case R.id.delete_all:
-                DB.quizzDAO().deleteAll();
-                Toast.makeText(this,"Vous avez Supprimer tous les quizz !", Toast.LENGTH_LONG).show();
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                supprimer=true;
+                                dialog.dismiss();
+                                supprimerAllQuizz();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                supprimer=false;
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Vous etes sur?").setPositiveButton("Oui", dialogClickListener)
+                        .setNegativeButton("Non", dialogClickListener).show();
                 return true;
             case R.id.add_quizz:
                 DOMQuizz = new DOMQuizz(this);

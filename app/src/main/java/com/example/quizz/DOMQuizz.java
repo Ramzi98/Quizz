@@ -112,7 +112,7 @@ class DOMQuizz {
                                 Node propositionNode = propositionList.item(k);
                                 Element propositionElement = (Element) propositionNode;
                                 //Ajouter l'element réponse dans l'ArrayList
-                                Log.d("k", "k = "+k);
+                                //Log.d("k", "k = "+k);
                                 props.add(propositionElement.getTextContent());
                             }
                             /*
