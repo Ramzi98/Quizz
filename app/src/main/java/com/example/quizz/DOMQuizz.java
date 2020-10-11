@@ -2,6 +2,7 @@ package com.example.quizz;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.quizz.DataBase.Quizz;
 
@@ -17,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,15 +37,13 @@ class DOMQuizz {
     }
 
     class HttpTitle  extends AsyncTask<Void, Void, List<String>> {
-        private List<String> titles = new ArrayList<String>();
-        ArrayList<com.example.quizz.DataBase.Quizz> Quizz = new ArrayList<com.example.quizz.DataBase.Quizz>();
+        private List<String> titles = new ArrayList<>();
+        ArrayList<com.example.quizz.DataBase.Quizz> Quizz = new ArrayList<>();
         String question;
         String type ="vide";
-        ArrayList<String> props = new ArrayList<String>();
+        ArrayList<String> props;
         int nombre = 0;
         int reponse = 0;
-        int current = 0;
-        ArrayList<String> propositions = new ArrayList<String>();
         private void getPage(String adresseURL) {
             BufferedReader bufferedReader = null;
             HttpURLConnection urlConnection = null;
@@ -102,7 +102,8 @@ class DOMQuizz {
                             nombre = Integer.parseInt(nombreElement.getAttribute("valeur"));
 
                             //Récuperer la liste des proposition
-                            NodeList propositionList = propositionsElement.getElementsByTagName("Proposition");
+                            NodeList propositionList = ((Element) propositionsNode).getElementsByTagName("Proposition");
+                            props = new ArrayList<>();
 
                             // Boucle pour récuperer les toutes les propositions d'une question
                             for (int k=0 ; k<propositionList.getLength() ; k++)
@@ -111,20 +112,9 @@ class DOMQuizz {
                                 // puis le transformer en Element
                                 Node propositionNode = propositionList.item(k);
                                 Element propositionElement = (Element) propositionNode;
-                                //Ajouter l'element réponse dans l'ArrayList
-                                //Log.d("k", "k = "+k);
+
                                 props.add(propositionElement.getTextContent());
                             }
-                            /*
-                            Log.d("boucle k", "current : "+current);
-                            Log.d("boucle k", "nombre : "+nombre);
-                            Log.d("boucle k", "current+nombre : "+(current+nombre));
-                            for (int k2=current;k2<(current+nombre);k2++)
-                            {
-                                propositions.add(props.get(k2));
-                            }
-                            current =current+nombre;
-                             */
                             //Récuperer un element depuis la liste des Réponse puis le transformer en type Element
                             NodeList reponseList = questionElement.getElementsByTagName("Reponse");
                             Node reponseNode = reponseList.item(0);
@@ -139,14 +129,20 @@ class DOMQuizz {
 
 
                 }
-                else { }
+                else {
+                    Toast.makeText(ma.getApplicationContext(),"Probleme de Connexion HTTP", Toast.LENGTH_LONG).show();
+                }
 
-            } catch (Exception e) { }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             finally {
                 if (bufferedReader != null) {
                     try {
                         bufferedReader.close();
-                    } catch (IOException e) { }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (urlConnection != null) urlConnection.disconnect();
             }

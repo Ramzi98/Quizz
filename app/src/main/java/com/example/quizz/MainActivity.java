@@ -1,5 +1,7 @@
 package com.example.quizz;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,20 +28,23 @@ import com.example.quizz.DataBase.Quizz;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Timer;
 
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView.Adapter GestionAdapter;
+    RecyclerView.Adapter PropositionAdapter;
     com.example.quizz.DataBase.Quizz Quizz;
     AppDatabase DB;
     List<com.example.quizz.DataBase.Quizz> Quizzs;
     DOMQuizz DOMQuizz;
     private int CurrentQuestion = 0;
     private int score = 0;
-    RecyclerView.Adapter PropositionAdapter;
     RecyclerView recyclerView;
     TextView question,timer;
     Boolean supprimer = false;
@@ -55,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
         GestionAdapter = new GestionAdapter(this,Quizzs);
-        RecupererQuizz();
+        Quizzs = DB.quizzDAO().getAllQuizzs();
         //Récuperations des données XML depuis le site
-        if(Quizzs.size() == 0)
+        if(Quizzs.isEmpty())
         {
             DOMQuizz = new DOMQuizz(this);
             DOMQuizz.execute();
@@ -76,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         question =findViewById(R.id.question_main);
         question.setText(Quizzs.get(CurrentQuestion).getQuestion());
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_propositions);
-        PropositionAdapter = new PropositionsAdapter(this,Quizzs.get(CurrentQuestion).getPropositions(),Quizzs.get(CurrentQuestion).getNombre_proposition(),prop);
+        PropositionAdapter = new PropositionsAdapter(this,Quizzs.get(CurrentQuestion).getPropositions(),Quizzs.get(CurrentQuestion).getNombre_proposition());
         recyclerView.setAdapter(PropositionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         prop += Quizzs.get(CurrentQuestion).getNombre_proposition();
@@ -101,12 +106,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void Add_New_Quizz(ArrayList<com.example.quizz.DataBase.Quizz> quizz) {
-        String question ;
+        String question;
         int nombre_propositions;
         ArrayList<String> propositions;
         String type;
         int reponse;
-
         for(int i=0;i<quizz.size();i++)
         {
             question = quizz.get(i).getQuestion();
@@ -116,8 +120,12 @@ public class MainActivity extends AppCompatActivity {
             type = quizz.get(i).getType();
             Quizz = new Quizz(i+1,question,reponse,nombre_propositions,propositions,type);
             DB.quizzDAO().insert(Quizz);
+            for (int j=0;j<propositions.size();j++)
+            {
+                Log.d("New Question", "Question : "+(i+1));
+                Log.d("New Question", "Proposition "+(j+1)+" :"+propositions.get(j));
+            }
         }
-
 
 
     }

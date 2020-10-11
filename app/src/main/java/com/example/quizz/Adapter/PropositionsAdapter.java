@@ -20,13 +20,11 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
     Context context;
     AppDatabase DB;
     int nombre_propositions;
-    int prop;
-    public PropositionsAdapter(Context context, ArrayList<String> propositions, int nombre_propositions, int prop)
+    public PropositionsAdapter(Context context, ArrayList<String> propositions, int nombre_propositions)
     {
         DB = Room.databaseBuilder(context , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
-        this.prop=prop;
         this.nombre_propositions=nombre_propositions;
         this.context=context;
         this.propositions=propositions;
@@ -42,14 +40,14 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PropositionsAdapter.MyViewHolder holder, final int position) {
-        String proposition1 = propositions.get(position+prop);
+        String proposition1 = propositions.get(position);
         proposition1 = proposition1.replaceAll("\t", "");
         holder.proposition.setText(proposition1);
     }
 
     @Override
     public int getItemCount() {
-        return nombre_propositions;
+        return propositions.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
