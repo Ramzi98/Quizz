@@ -1,10 +1,12 @@
 package com.example.quizz.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,16 +21,17 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
     ArrayList<String> propositions;
     Context context;
     AppDatabase DB;
-    int nombre_propositions;
-    public PropositionsAdapter(Context context, ArrayList<String> propositions, int nombre_propositions)
+    private OnItemTouchListener onItemTouchListener;
+    public PropositionsAdapter(Context context, ArrayList<String> propositions,OnItemTouchListener onItemTouchListener)
     {
         DB = Room.databaseBuilder(context , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
-        this.nombre_propositions=nombre_propositions;
         this.context=context;
         this.propositions=propositions;
+        this.onItemTouchListener = onItemTouchListener;
     }
+
     @NonNull
     @Override
     public PropositionsAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,8 +58,13 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             proposition = itemView.findViewById(R.id.proposition);
-
-
+            proposition.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemTouchListener.onButton1Click(v, getAdapterPosition());
+                }
+            });
         }
+
     }
 }

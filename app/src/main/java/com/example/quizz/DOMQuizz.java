@@ -115,6 +115,11 @@ class DOMQuizz {
 
                                 props.add(propositionElement.getTextContent());
                             }
+                            for(int k2=0;k2<props.size();k2++)
+                            {
+                                props.set(k2,props.get(k2).replaceAll("\\R", ""));
+                                props.set(k2,props.get(k2).replaceAll("\t", ""));
+                            }
                             //Récuperer un element depuis la liste des Réponse puis le transformer en type Element
                             NodeList reponseList = questionElement.getElementsByTagName("Reponse");
                             Node reponseNode = reponseList.item(0);

@@ -16,7 +16,7 @@ import com.example.quizz.DataBase.AppDatabase;
 
 import java.util.List;
 
-public class GestionQuestions extends AppCompatActivity {
+public class QuestionsManagement extends AppCompatActivity {
     private RecyclerView recyclerView;
     List<com.example.quizz.DataBase.Quizz> Quizz;
     GestionAdapter gestionAdapter;

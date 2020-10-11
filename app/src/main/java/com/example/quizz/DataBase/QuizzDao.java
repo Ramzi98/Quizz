@@ -13,6 +13,8 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 public interface QuizzDao {
     @Query("SELECT * FROM Quizz")
     List<Quizz> getAllQuizzs();
+    @Query("SELECT * FROM Quizz WHERE id = :id")
+    Quizz getQuizz(int id);
     @Insert(onConflict = REPLACE)
     void insertAll(Quizz... quizzs);
     @Insert(onConflict = REPLACE)

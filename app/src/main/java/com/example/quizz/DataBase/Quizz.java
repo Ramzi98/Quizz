@@ -2,6 +2,7 @@ package com.example.quizz.DataBase;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
@@ -19,9 +20,16 @@ public class Quizz {
     private ArrayList<String> propositions;
     @ColumnInfo(name = "type")
     private String type;
-
+    @Ignore
     public Quizz(int id, String question, int reponse, int nombre_proposition, ArrayList<String> propositions, String type) {
         this.id = id;
+        this.question = question;
+        this.reponse = reponse;
+        this.nombre_proposition = nombre_proposition;
+        this.propositions = propositions;
+        this.type = type;
+    }
+    public Quizz(String question, int reponse, int nombre_proposition, ArrayList<String> propositions, String type) {
         this.question = question;
         this.reponse = reponse;
         this.nombre_proposition = nombre_proposition;

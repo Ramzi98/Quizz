@@ -42,20 +42,6 @@ public class GestionAdapter extends RecyclerView.Adapter<GestionAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.question.setText(Quizzs.get(position).getQuestion());
         holder.number.setText(" "+String.valueOf(position+1)+" :");
-        /*
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(context,ModifyQuestion.class);
-                Bundle args = new Bundle();
-                args.putSerializable("ARRAYLIST",(Serializable)Quizzs);
-                intent1.putExtra("BUNDLE",args);
-                intent1.putExtra("position",String.valueOf(position));
-                context.startActivity(intent1);
-            }
-        });
-         */
-
     }
 
     @Override

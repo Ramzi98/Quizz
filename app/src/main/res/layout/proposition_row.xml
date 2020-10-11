@@ -6,5 +6,6 @@
         android:id="@+id/proposition"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Reponse 1" />
+        android:text="Reponse 1"
+        android:padding="20dp"/>
 </LinearLayout>
