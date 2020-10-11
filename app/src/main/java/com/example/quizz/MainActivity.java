@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView question,timer;
     Boolean supprimer = false;
-    int prop = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
         GestionAdapter = new GestionAdapter(this,Quizzs);
+        Quizzs = new ArrayList<>();
         Quizzs = DB.quizzDAO().getAllQuizzs();
         //Récuperations des données XML depuis le site
-        if(Quizzs.isEmpty())
+        if(Quizzs.size() == 0)
         {
             DOMQuizz = new DOMQuizz(this);
             DOMQuizz.execute();
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Quizzs = DB.quizzDAO().getAllQuizzs();
     }
+
     private void UpdateQuestion() {
         question =findViewById(R.id.question_main);
         question.setText(Quizzs.get(CurrentQuestion).getQuestion());
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         PropositionAdapter = new PropositionsAdapter(this,Quizzs.get(CurrentQuestion).getPropositions(),Quizzs.get(CurrentQuestion).getNombre_proposition());
         recyclerView.setAdapter(PropositionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        prop += Quizzs.get(CurrentQuestion).getNombre_proposition();
     }
 
     public void supprimerAllQuizz() {
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         {
             DB.quizzDAO().deleteAll();
             Toast.makeText(this,"Vous avez Supprimer tous les quizz !", Toast.LENGTH_LONG).show();
-            UpdateQuestion();
+            //UpdateQuestion();
             supprimer = false;
         }
     }
@@ -120,12 +120,13 @@ public class MainActivity extends AppCompatActivity {
             type = quizz.get(i).getType();
             Quizz = new Quizz(i+1,question,reponse,nombre_propositions,propositions,type);
             DB.quizzDAO().insert(Quizz);
-            for (int j=0;j<propositions.size();j++)
-            {
-                Log.d("New Question", "Question : "+(i+1));
-                Log.d("New Question", "Proposition "+(j+1)+" :"+propositions.get(j));
-            }
         }
+        if(Quizzs.size() == 0)
+        {
+            Quizzs = DB.quizzDAO().getAllQuizzs();
+            UpdateQuestion();
+        }
+
 
 
     }
