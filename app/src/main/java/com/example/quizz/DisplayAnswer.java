@@ -1,60 +1,64 @@
 package com.example.quizz;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.quizz.DataBase.AppDatabase;
-import com.example.quizz.DataBase.Quizz;
+import com.example.quizz.DataBase.Question;
 
 public class DisplayAnswer extends AppCompatActivity {
     String id1;
-    int id = 1;
-    TextView question,reponse;
+    String reponse;
+    int id = 1,r = 1;
+    TextView Tquestion,Treponse;
     AppDatabase DB;
-    Quizz quizz;
+    Question question;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.afficher_reponse);
-        question = (TextView) findViewById(R.id.q2);
-        reponse = (TextView) findViewById(R.id.r2);
+        Tquestion = (TextView) findViewById(R.id.q2);
+        Treponse = (TextView) findViewById(R.id.r2);
+
+        //Récuperation de la base de données
         DB = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "quizz")
                 .allowMainThreadQueries()
                 .build();
+
+
+        //Récuperation des extra
         Intent intent = getIntent();
-        if (intent.hasExtra("id")) {
-            try {
-                id1 = intent.getStringExtra("id");
-                id = Integer.valueOf(id1);
-            }
-            catch (NullPointerException e)
-            {
-                e.printStackTrace();
-            }
-
+        if (intent.hasExtra("id"))
+        {
+            id1 = intent.getStringExtra("id");
+            id = Integer.valueOf(id1);
         }
-        Log.d("TAG", "onCreate: "+id1);
-        quizz = DB.quizzDAO().getQuizz(id);
-        String q = quizz.getQuestion();
-        question.setText(q);
+        if (intent.hasExtra("reponse"))
+        {
+            id1 = intent.getStringExtra("reponse");
+            r = Integer.valueOf(id1);
+        }
+
+        //Récuperation de question et reponse depuis la base de données
+        question = DB.questionDao().getQuestionByid(id);
+        reponse = DB.propositionDao().getPropositionByQuestionid(id).getPropositions().get(r);
+
+        //Affichage de la question
+        Tquestion.setText(question.getQuestion());
     }
 
+    //Click Button Montrer reponse
     public void montrer_reponse(View view) {
-        reponse.setText(quizz.getPropositions().get(quizz.getReponse()-1));
+        Treponse.setText(reponse);
     }
 
+    //Click Button Retour
     public void retour(View view) {
-        //Intent returnIntent = new Intent();
-        //returnIntent.putExtra("vu","true");
-        //setResult(Activity.RESULT_OK,returnIntent);
         finish();
     }
 }

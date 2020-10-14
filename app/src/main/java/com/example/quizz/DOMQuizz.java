@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.quizz.DataBase.Proposition;
+import com.example.quizz.DataBase.Question;
 import com.example.quizz.DataBase.Quizz;
 
 import org.w3c.dom.Document;
@@ -39,6 +41,8 @@ class DOMQuizz {
     class HttpTitle  extends AsyncTask<Void, Void, List<String>> {
         private List<String> titles = new ArrayList<>();
         ArrayList<com.example.quizz.DataBase.Quizz> Quizz = new ArrayList<>();
+        ArrayList<Question> Questions = new ArrayList<>();
+        ArrayList<Proposition> Propositions = new ArrayList<>();
         String question;
         String type ="vide";
         ArrayList<String> props;
@@ -127,7 +131,9 @@ class DOMQuizz {
                             //Affecter la valeur récuperer vers le variable nombre
                             reponse = Integer.parseInt(reponseElement.getAttribute("valeur"));
                             //sauvgarder toutes les valeur dans un Arraylist<Quizz>
-                            Quizz.add(new Quizz(i+1,question,reponse,nombre,props,type));
+                            Quizz.add(new Quizz(type));
+                            Questions.add(new Question(question,reponse,nombre));
+                            Propositions.add(new Proposition(props));
                         }
 
                     }
@@ -161,7 +167,7 @@ class DOMQuizz {
 
         @Override
         protected void onPostExecute(List<String> titles) {
-            ma.Add_New_Quizz(Quizz);
+            ma.Add_New_Quizz(Quizz,Questions,Propositions);
         }
     }
 

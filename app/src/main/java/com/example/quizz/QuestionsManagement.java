@@ -13,12 +13,13 @@ import androidx.room.Room;
 
 import com.example.quizz.Adapter.GestionAdapter;
 import com.example.quizz.DataBase.AppDatabase;
+import com.example.quizz.DataBase.Question;
 
 import java.util.List;
 
 public class QuestionsManagement extends AppCompatActivity {
     private RecyclerView recyclerView;
-    List<com.example.quizz.DataBase.Quizz> Quizz;
+    List<Question> Questions;
     GestionAdapter gestionAdapter;
     AppDatabase DB;
 
@@ -29,9 +30,9 @@ public class QuestionsManagement extends AppCompatActivity {
         DB = Room.databaseBuilder(getApplicationContext() , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
-        Quizz = DB.quizzDAO().getAllQuizzs();
+        Questions = DB.questionDao().getAllQuestions();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        gestionAdapter = new GestionAdapter(this,Quizz);
+        gestionAdapter = new GestionAdapter(this,Questions);
         recyclerView.setAdapter(gestionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         new ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(recyclerView);
@@ -45,8 +46,8 @@ public class QuestionsManagement extends AppCompatActivity {
 
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            DB.quizzDAO().deleteQuizz(Quizz.get(viewHolder.getAdapterPosition()));
-            Quizz.remove(viewHolder.getAdapterPosition());
+            DB.questionDao().deleteQuestion(Questions.get(viewHolder.getAdapterPosition()));
+            Questions.remove(viewHolder.getAdapterPosition());
             gestionAdapter.notifyDataSetChanged();
         }
     };

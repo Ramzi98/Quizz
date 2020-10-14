@@ -1,6 +1,8 @@
 package com.example.quizz.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.quizz.DataBase.AppDatabase;
+import com.example.quizz.DataBase.Question;
 import com.example.quizz.R;
 
 import java.util.ArrayList;
+
 
 public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapter.MyViewHolder> {
     ArrayList<String> propositions;
     Context context;
     AppDatabase DB;
+    Question question;
     private OnItemTouchListener onItemTouchListener;
-    public PropositionsAdapter(Context context, ArrayList<String> propositions,OnItemTouchListener onItemTouchListener)
+    public PropositionsAdapter(Context context, ArrayList<String> propositions,int question_id,OnItemTouchListener onItemTouchListener)
     {
         DB = Room.databaseBuilder(context , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
@@ -30,6 +35,7 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
         this.context=context;
         this.propositions=propositions;
         this.onItemTouchListener = onItemTouchListener;
+        this.question = DB.questionDao().getQuestionByid(question_id);
     }
 
     @NonNull
@@ -42,7 +48,7 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PropositionsAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final PropositionsAdapter.MyViewHolder holder, final int position) {
         String proposition1 = propositions.get(position);
         proposition1 = proposition1.replaceAll("\t", "");
         holder.proposition.setText(proposition1);
@@ -61,9 +67,29 @@ public class PropositionsAdapter extends RecyclerView.Adapter<PropositionsAdapte
             proposition.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemTouchListener.onButton1Click(v, getAdapterPosition());
+                    final View v1 = v;
+                    new CountDownTimer(50, 50) {
+
+                        public void onTick(long millisUntilFinished) {
+                            if(question.getReponse() == (getAdapterPosition()+1))
+                            {
+                                int i = Color.parseColor("#539A00");
+                                proposition.setBackgroundColor(i);
+                            }
+                            else if(question.getReponse() != (getAdapterPosition()+1))
+                            {
+                                int i = Color.parseColor("#E80000");
+                                proposition.setBackgroundColor(i);
+                            }
+                        }
+
+                        public void onFinish() {
+                            onItemTouchListener.onButton1Click(v1, getAdapterPosition());
+                        }
+                    }.start();
                 }
             });
+
         }
 
     }

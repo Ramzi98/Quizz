@@ -12,23 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.quizz.DataBase.AppDatabase;
+import com.example.quizz.DataBase.Question;
 import com.example.quizz.DataBase.Quizz;
 import com.example.quizz.R;
 
 import java.util.List;
 
 public class GestionAdapter extends RecyclerView.Adapter<GestionAdapter.MyViewHolder> {
-    List<Quizz> Quizzs;
+    List<Question> Questions;
     Context context;
     AppDatabase DB;
-    public GestionAdapter(Context context, List<Quizz> Quizzs)
+    public GestionAdapter(Context context, List<Question> Questions)
     {
         DB = Room.databaseBuilder(context , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
 
         this.context=context;
-        this.Quizzs=Quizzs;
+        this.Questions=Questions;
     }
     @NonNull
     @Override
@@ -40,13 +41,19 @@ public class GestionAdapter extends RecyclerView.Adapter<GestionAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        holder.question.setText(Quizzs.get(position).getQuestion());
+        holder.question.setText(Questions.get(position).getQuestion());
         holder.number.setText(" "+String.valueOf(position+1)+" :");
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return Quizzs.size();
+        return Questions.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
