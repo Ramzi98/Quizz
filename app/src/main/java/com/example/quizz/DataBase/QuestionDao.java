@@ -15,6 +15,8 @@ public interface QuestionDao {
     List<Question> getAllQuestions();
     @Query("SELECT * FROM Question WHERE id = :id")
     Question getQuestionByid(int id);
+    @Query("SELECT * FROM Question WHERE quizz_id = :quizz_id")
+    List<Question> getQuestionByQuizzid(int quizz_id);
     @Query("SELECT * FROM Question WHERE question = :question")
     Question getQuestion(String question);
     @Insert(onConflict = REPLACE)

@@ -1,6 +1,7 @@
 package com.example.quizz.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.room.Room;
 import com.example.quizz.DataBase.AppDatabase;
 import com.example.quizz.DataBase.Question;
 import com.example.quizz.DataBase.Quizz;
+import com.example.quizz.Partie;
 import com.example.quizz.R;
 
 import java.util.List;

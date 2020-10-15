@@ -1,7 +1,6 @@
 package com.example.quizz;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.quizz.DataBase.Proposition;
@@ -20,16 +19,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 class DOMQuizz {
     HttpTitle httpTitle ;
-    MainActivity ma;
+    QuizzsGestion ma;
 
-    public DOMQuizz(MainActivity ma) {
+    public DOMQuizz(QuizzsGestion ma) {
         this.ma = ma ;
         httpTitle = new HttpTitle() ;
     }
