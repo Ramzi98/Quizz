@@ -27,16 +27,16 @@ import java.util.ArrayList;
 public class AddQuestion extends AppCompatActivity {
     EditText ETtype, ETquestion, ETreponse;
     String type, question, reponse1,proposition1;
-    int reponse;
+    int reponse,quizz_id;
     ArrayList<String> propositions= new ArrayList<>();;
     RecyclerView recyclerView;
     Add_PropostionsAdapter Add_PropositionsAdapter;
     AppDatabase DB;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_question);
-        ETtype = (EditText) findViewById(R.id.type_question_add);
         ETquestion = (EditText) findViewById(R.id.question_add);
         ETreponse = (EditText) findViewById(R.id.reponse_add);
 
@@ -44,41 +44,30 @@ public class AddQuestion extends AppCompatActivity {
         DB = Room.databaseBuilder(getApplicationContext() , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
+        Intent intent = getIntent();
+        if (intent.hasExtra("quizz_type") && intent.hasExtra("quizz_id"))
+        {
+            type = intent.getStringExtra("quizz_type");
+            quizz_id = Integer.parseInt(intent.getStringExtra("quizz_id"));
+        }
+
     }
 
     //Click button Ajouter Question
     public void AddNewQuestion(View view) {
-        int quizz_id,question_id;
+        int question_id;
         Long id,id1;
         //Récuperation des valeurs depuis les champs
-        type = ETtype.getText().toString();
         question = ETquestion.getText().toString();
         reponse1 = ETreponse.getText().toString();
         reponse = Integer.parseInt(reponse1);
-        if(!TextUtils.isEmpty(type) && !TextUtils.isEmpty(question) && !TextUtils.isEmpty(reponse1) && propositions.size()>1)
+        if(!TextUtils.isEmpty(question) && !TextUtils.isEmpty(reponse1) && propositions.size()>1)
         {
             if(reponse > 0 && reponse <= propositions.size())
             {
-                Quizz q = DB.quizzDAO().getQuizzByType(type);
                 Question qs = DB.questionDao().getQuestion(question);
-                if(q == null && qs == null )
+                if(qs == null )
                 {
-                    Quizz quizz =new Quizz(type);
-                    id= DB.quizzDAO().insert(quizz);
-                    quizz_id = id.intValue();
-                    Question qst = new Question(question,reponse,propositions.size(),quizz_id);
-                    id1 = DB.questionDao().insert(qst);
-                    question_id = id1.intValue();
-                    Proposition prop = new Proposition(propositions,question_id);
-                    DB.propositionDao().insert(prop);
-                    Toast.makeText(this,"La Question a été ajouté avec succès", Toast.LENGTH_LONG).show();
-                    Intent returnIntent = new Intent();
-                    setResult(Activity.RESULT_OK,returnIntent);
-                    finish();
-                }
-                else if(q != null)
-                {
-                    quizz_id = q.getId();
                     Question qst = new Question(question,reponse,propositions.size(),quizz_id);
                     id1 = DB.questionDao().insert(qst);
                     question_id = id1.intValue();

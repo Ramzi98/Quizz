@@ -37,6 +37,9 @@ public class QuizzChoosed extends AppCompatActivity {
     }
 
     public void AfficherScore(View view) {
+        Intent display_score_intent = new Intent(this,DisplayScoresOfQuizz.class);
+        display_score_intent.putExtra("quizz_id",String.valueOf(quizz_id));
+        startActivity(display_score_intent);
     }
 
     public void ChoisirAutreQuizz(View view) {

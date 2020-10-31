@@ -26,5 +26,7 @@ public interface QuizzDao {
     void deleteQuizz(Quizz quizz);
     @Query("DELETE FROM Quizz")
     void deleteAll();
+    @Query("UPDATE Quizz SET type = :type WHERE id = :id")
+    void updateQuizz(String type,int id);
 
 }

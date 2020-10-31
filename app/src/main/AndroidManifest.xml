@@ -31,6 +31,12 @@
             android:name=".QuizzsGestion" />
         <activity
             android:name=".QuizzsList" />
+        <activity
+            android:name=".DisplayAllQuizzs" />
+        <activity
+            android:name=".DisplayScore" />
+        <activity
+            android:name=".DisplayScoresOfQuizz" />
 
         <meta-data
             android:name="preloaded_fonts"

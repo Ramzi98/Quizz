@@ -17,11 +17,14 @@ public class Score {
     private int id;
     @ColumnInfo(name = "player_name")
     private String player_name;
+    @ColumnInfo(name = "score")
+    private int score;
     @ColumnInfo(name = "quizz_id")
     private int quizz_id;
 
-    public Score(String player_name, int quizz_id) {
+    public Score(String player_name, int score, int quizz_id) {
         this.player_name = player_name;
+        this.score = score;
         this.quizz_id = quizz_id;
     }
 
@@ -48,4 +51,8 @@ public class Score {
     public void setQuizz_id(int quizz_id) {
         this.quizz_id = quizz_id;
     }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
 }

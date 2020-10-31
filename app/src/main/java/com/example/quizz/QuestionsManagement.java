@@ -2,6 +2,7 @@ package com.example.quizz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,9 @@ public class QuestionsManagement extends AppCompatActivity {
     List<Question> Questions;
     GestionAdapter gestionAdapter;
     AppDatabase DB;
+    int quizz_id;
+    String quizz_type;
+    private static final String TAG = "LIFECYCLE_DEMO";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +34,21 @@ public class QuestionsManagement extends AppCompatActivity {
         DB = Room.databaseBuilder(getApplicationContext() , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
-        Questions = DB.questionDao().getAllQuestions();
+        Intent intent = getIntent();
+        if (intent.hasExtra("id"))
+        {
+            quizz_id = Integer.parseInt(intent.getStringExtra("id"));
+        }
+        Questions = DB.questionDao().getQuestionByQuizzid(quizz_id);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         gestionAdapter = new GestionAdapter(this,Questions);
         recyclerView.setAdapter(gestionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         new ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(recyclerView);
+
     }
+
+
 
     ItemTouchHelper.SimpleCallback itemTouchHelperCallBack = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
         @Override
@@ -53,7 +65,41 @@ public class QuestionsManagement extends AppCompatActivity {
     };
 
     public void btn_add_question(View view) {
+        quizz_type = DB.quizzDAO().getQuizzById(quizz_id).getType();
         Intent intent = new Intent(this,AddQuestion.class);
+        intent.putExtra("quizz_type",quizz_type);
+        intent.putExtra("quizz_id",String.valueOf(quizz_id));
         startActivity(intent);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "INSIDE: onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "INSIDE: onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "INSIDE: onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "INSIDE: onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "INSIDE: onResume");
+    }
+
 }

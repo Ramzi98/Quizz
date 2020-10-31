@@ -1,8 +1,13 @@
 package com.example.quizz;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -44,9 +49,42 @@ public class QuizzsGestion extends AppCompatActivity {
     }
 
     public void EditionQuizz(View view) {
+        Intent edition_quizz_intent = new Intent(this,DisplayAllQuizzs.class);
+        startActivity(edition_quizz_intent);
     }
 
-    public void CreationQuizz(View view) {
+    public void CreationQuizz(final View view) {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_add_quizz);
+        dialog.setTitle("Ajouter un Quizz");
+        Button AjouterButton = (Button) dialog.findViewById(R.id.dialogButtonAjouter_quizz);
+        Button AnnulerButton = (Button) dialog.findViewById(R.id.dialogButtonEffacer_quizz);
+        //final EditText proposition = (EditText) findViewById(R.id.proposition_dialog);
+        AjouterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText edt = (EditText)dialog.findViewById(R.id.quizz_type_dialog);
+                final String quizz_type= edt.getText().toString();
+                if(!quizz_type.equals(""))
+                {
+                    DB.quizzDAO().insert(new Quizz(quizz_type));
+                    dialog.dismiss();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Remplir le type de Quizz SVP !", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        AnnulerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void Add_New_Quizz(ArrayList<Quizz> quizz, ArrayList<Question> questions, ArrayList<Proposition> propositions) {

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/primary_text_dark">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +38,11 @@
             android:layout_marginBottom="10dp"
             android:text="Monrer La Réponse"
             android:onClick="montrer_reponse"
-            android:padding="20dp"/>
+            android:fontFamily="@font/baumans"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/button_shape1"/>
 
         <Button
             android:id="@+id/retour"
@@ -46,6 +51,10 @@
             android:text="Retour"
             android:onClick="retour"
             android:layout_gravity="center"
-            android:padding="20dp"/>
+            android:fontFamily="@font/baumans"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/button_shape1"/>
     </LinearLayout>
 </RelativeLayout>

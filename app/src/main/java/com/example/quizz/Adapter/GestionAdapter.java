@@ -16,6 +16,7 @@ import com.example.quizz.DataBase.AppDatabase;
 import com.example.quizz.DataBase.Question;
 import com.example.quizz.DataBase.Quizz;
 import com.example.quizz.Partie;
+import com.example.quizz.QuestionsManagement;
 import com.example.quizz.R;
 
 import java.util.List;
@@ -48,7 +49,14 @@ public class GestionAdapter extends RecyclerView.Adapter<GestionAdapter.MyViewHo
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Modification d'une question
+                /*
+                int id = Questions.get(position).getId();
+                Intent question_managment_intent = new Intent(context, QuestionsManagement.class);
+                question_managment_intent.putExtra("id",String.valueOf(id));
+                context.startActivity(question_managment_intent);
 
+                 */
             }
         });
     }

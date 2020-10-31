@@ -155,8 +155,14 @@ public class Partie extends AppCompatActivity {
     }
 
     public void PrintScore() {
-        ScorePrint = (TextView) findViewById(R.id.score);
-        ScorePrint.setText("Votre Score :"+score+"/"+ questionList.size());
+        Intent score_intent = new Intent(this,DisplayScore.class);
+        score_intent.putExtra("score",String.valueOf(score));
+        score_intent.putExtra("quizz_id",String.valueOf(quizz_id));
+        score_intent.putExtra("nbr_questions",String.valueOf(questionList.size()));
+        startActivity(score_intent);
+        finish();
+        //ScorePrint = (TextView) findViewById(R.id.score);
+        //ScorePrint.setText("Votre Score :"+score+"/"+ questionList.size());
     }
 
     OnItemTouchListener itemTouchListener = new OnItemTouchListener() {
