@@ -13,7 +13,6 @@
         android:layout_alignParentTop="true"
         android:layout_above="@+id/LA_base">
 
-
             <LinearLayout
                 android:id="@+id/La"
                 android:layout_width="match_parent"
@@ -23,6 +22,12 @@
                 android:gravity="center"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp">
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/quizz_logo"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"/>
                 <TextView
                     android:id="@+id/timer"
                     android:layout_width="wrap_content"
@@ -77,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="12dp"
             android:text="Voir Réponse"
@@ -94,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:text="Suivante"

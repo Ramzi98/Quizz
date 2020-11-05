@@ -98,8 +98,8 @@ public class Partie extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
+    protected void onResume() {
+        super.onResume();
         RecupererQuizz();
     }
 
@@ -187,11 +187,50 @@ public class Partie extends AppCompatActivity {
     };
 
     public void AfficherReponse(View view) {
-        Reponse_Consulter.set(CurrentQuestion,true);
-        Intent AnswerIntent = new Intent(this,DisplayAnswer.class);
-        AnswerIntent.putExtra("id", String.valueOf(questionList.get(CurrentQuestion).getId()));
-        AnswerIntent.putExtra("reponse", String.valueOf(questionList.get(CurrentQuestion).getReponse()));
-        Log.d("TAG", "AfficherReponse: "+ questionList.get(CurrentQuestion).getId());
-        startActivity(AnswerIntent);
+        //Vérifier si la liste des questions donc afficher la reponse
+        if(!questionList.isEmpty()){
+            //Mettre le variable Reponse_consulter true pour ne pas calculer cette question dans le score
+            Reponse_Consulter.set(CurrentQuestion,true);
+            //Créer new Intent DisplayAnswer la ou on va afficher la réponse
+            Intent AnswerIntent = new Intent(this,DisplayAnswer.class);
+            //Envoyer deux extra id et reponse pour l'intent Displayanswer
+            AnswerIntent.putExtra("id", String.valueOf(questionList.get(CurrentQuestion).getId()));
+            AnswerIntent.putExtra("reponse", String.valueOf(questionList.get(CurrentQuestion).getReponse()));
+            Log.d("TAG", "AfficherReponse: "+ questionList.get(CurrentQuestion).getId());
+            //Démarer l'activity
+            startActivity(AnswerIntent);
+        }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putInt("score", score);
+        savedInstanceState.putInt("CurrentQuestion", CurrentQuestion);
+
+
+    }
+
+    //onRestoreInstanceState
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+
+        score = savedInstanceState.getInt("score");
+        CurrentQuestion = savedInstanceState.getInt("CurrentQuestion");
+        UpdateQuestion();
+
+    }
+
+
 }

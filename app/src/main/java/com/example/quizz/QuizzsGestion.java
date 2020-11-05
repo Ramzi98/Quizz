@@ -143,7 +143,7 @@ public class QuizzsGestion extends AppCompatActivity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Vous etes sur?").setPositiveButton("Oui", dialogClickListener)
+        builder.setMessage("Vous êtes sur ?").setPositiveButton("Oui", dialogClickListener)
                 .setNegativeButton("Non", dialogClickListener).show();
     }
 

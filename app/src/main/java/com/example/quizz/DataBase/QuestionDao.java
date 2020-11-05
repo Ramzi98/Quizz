@@ -27,4 +27,6 @@ public interface QuestionDao {
     void deleteQuestion(Question question);
     @Query("DELETE FROM Question")
     void deleteAll();
+    @Query("UPDATE Question SET question = :question , reponse = :reponse , nombre_proposition = :nombre_proposition WHERE id = :id")
+    void updateQuestion(String question,int reponse,int nombre_proposition,int id);
 }

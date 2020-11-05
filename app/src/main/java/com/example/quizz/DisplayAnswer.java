@@ -12,14 +12,17 @@ import com.example.quizz.DataBase.AppDatabase;
 import com.example.quizz.DataBase.Question;
 
 public class DisplayAnswer extends AppCompatActivity {
+    //déclaration des variables
     String id1;
     String reponse;
     int id = 1,r = 1;
     TextView Tquestion,Treponse;
     AppDatabase DB;
     Question question;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Initialiser le contentview
         super.onCreate(savedInstanceState);
         setContentView(R.layout.afficher_reponse);
         Tquestion = (TextView) findViewById(R.id.q2);
@@ -30,14 +33,15 @@ public class DisplayAnswer extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
 
-
-        //Récuperation des extra
+        //Récuperation des extra envoyer par l intent d'avant
         Intent intent = getIntent();
+        //Vérifier si l'Intent a envoyer le variable id et le récuperer
         if (intent.hasExtra("id"))
         {
             id1 = intent.getStringExtra("id");
             id = Integer.valueOf(id1);
         }
+        //Vérifier si l'Intent a envoyer le variable reponse et le récuperer
         if (intent.hasExtra("reponse"))
         {
             id1 = intent.getStringExtra("reponse");

@@ -29,6 +29,13 @@ public class Proposition {
     }
 
     @Ignore
+    public Proposition(ArrayList<String> propositions, int question_id,int id) {
+        this.id = id;
+        this.propositions = propositions;
+        this.question_id = question_id;
+    }
+
+    @Ignore
     public Proposition(ArrayList<String> propositions) {
         this.propositions = propositions;
     }

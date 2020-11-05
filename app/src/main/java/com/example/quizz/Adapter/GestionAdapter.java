@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.quizz.DataBase.AppDatabase;
+import com.example.quizz.ModifyQuestion;
 import com.example.quizz.DataBase.Question;
-import com.example.quizz.DataBase.Quizz;
-import com.example.quizz.Partie;
-import com.example.quizz.QuestionsManagement;
 import com.example.quizz.R;
 
 import java.util.List;
@@ -50,13 +48,15 @@ public class GestionAdapter extends RecyclerView.Adapter<GestionAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 //Modification d'une question
-                /*
-                int id = Questions.get(position).getId();
-                Intent question_managment_intent = new Intent(context, QuestionsManagement.class);
-                question_managment_intent.putExtra("id",String.valueOf(id));
+                int question_id = Questions.get(position).getId();
+                int quizz_id = Questions.get(position).getQuizz_id();
+
+                Intent question_managment_intent = new Intent(context, ModifyQuestion.class);
+                question_managment_intent.putExtra("quizz_id",String.valueOf(quizz_id));
+                question_managment_intent.putExtra("question_id",String.valueOf(question_id));
+
                 context.startActivity(question_managment_intent);
 
-                 */
             }
         });
     }

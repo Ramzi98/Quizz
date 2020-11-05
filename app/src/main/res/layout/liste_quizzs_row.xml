@@ -17,5 +17,5 @@
         android:textSize="22sp"
         android:textStyle="bold"
         android:padding="12dp"
-        />
+        android:background="@drawable/button_shape5"/>
 </LinearLayout>

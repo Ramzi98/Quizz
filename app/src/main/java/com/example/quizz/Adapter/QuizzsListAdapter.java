@@ -29,9 +29,10 @@ public class QuizzsListAdapter extends RecyclerView.Adapter<QuizzsListAdapter.My
     AppDatabase DB;
     List<Quizz> quizzList;
     int quizz_id = 0;
+    TextView textView;
     private OnitemQuizzTouchListener onitemQuizzTouchListener;
     //constructeur de l'adapter
-    public QuizzsListAdapter(Context context,OnitemQuizzTouchListener onitemQuizzTouchListener)
+    public QuizzsListAdapter(Context context,OnitemQuizzTouchListener onitemQuizzTouchListener,View itemview)
     {
         //Récuperation de la base de données
         DB = Room.databaseBuilder(context , AppDatabase.class , "quizz")
@@ -40,6 +41,11 @@ public class QuizzsListAdapter extends RecyclerView.Adapter<QuizzsListAdapter.My
         quizzList = DB.quizzDAO().getAllQuizzs();
         this.context=context;
         this.onitemQuizzTouchListener = onitemQuizzTouchListener;
+        textView =  itemview.findViewById(R.id.tv_choisir_quizz);
+        if(quizzList.isEmpty())
+        {
+            textView.setText("Base de données Vide \n(Svp télecharger les quizz depuis le serveur ou bien ajouter vos propre quizz)");
+        }
     }
 
 
@@ -70,6 +76,7 @@ public class QuizzsListAdapter extends RecyclerView.Adapter<QuizzsListAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         Button button_quizz;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             button_quizz = itemView.findViewById(R.id.btn_quizz);

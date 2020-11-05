@@ -6,7 +6,17 @@
     android:layout_height="match_parent"
     android:background="@android:color/primary_text_dark"
     android:gravity="center">
-
+    <TextView
+        android:id="@+id/txt_liste_quizzs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choisir un Quizz \n (Swipe pour supprimer)"
+        android:fontFamily="@font/baumans"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_liste_quizzs"
         android:scrollbars="vertical"

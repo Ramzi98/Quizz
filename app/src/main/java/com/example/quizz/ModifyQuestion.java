@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,15 +23,20 @@ import com.example.quizz.Adapter.Add_PropostionsAdapter;
 import com.example.quizz.DataBase.AppDatabase;
 import com.example.quizz.DataBase.Proposition;
 import com.example.quizz.DataBase.Question;
-import com.example.quizz.DataBase.Quizz;
+import com.example.quizz.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AddQuestion extends AppCompatActivity {
-    //Déclaration des variables
+public class ModifyQuestion extends AppCompatActivity {
+    //Declaration des variables
+    TextView textView;
     EditText ETquestion, ETreponse;
+    Button btn;
+    Proposition proposition;
+    Question qst;
     String type, question, reponse1,proposition1;
-    int reponse,quizz_id;
+    int reponse,quizz_id,question_id;
     ArrayList<String> propositions= new ArrayList<>();;
     RecyclerView recyclerView;
     Add_PropostionsAdapter Add_PropositionsAdapter;
@@ -38,46 +44,49 @@ public class AddQuestion extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        //Initialiser le contentview
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_question);
-
-        //Récuperartion desEdittext et recyclerview depuis le View
         ETquestion = (EditText) findViewById(R.id.question_add);
         ETreponse = (EditText) findViewById(R.id.reponse_add);
+        textView = findViewById(R.id.tv_add);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_addquestion);
-
-        //Initialisation de l'adapter
         Add_PropositionsAdapter = new Add_PropostionsAdapter(this,propositions);
+        btn = findViewById(R.id.btn);
+        btn.setText("Modifier");
+        textView.setText("Modifier une question");
 
         //Récuperation de la base de données
         DB = Room.databaseBuilder(getApplicationContext() , AppDatabase.class , "quizz")
                 .allowMainThreadQueries()
                 .build();
 
-        //Récuperer les données envoyer par l'activity d'avant
+        //Récuperer les données envoyer par l intent d'avant
         Intent intent = getIntent();
 
-        //Vérifier si l'Intent a envoyer les deux variables quizz_type et quizz_id et les récuperer
-        if (intent.hasExtra("quizz_type") && intent.hasExtra("quizz_id"))
+        //Vérifier si l'Intent a envoyer les deux variable quizz_type et quizz_id et question_id et les récuperer
+        if (intent.hasExtra("quizz_id") && intent.hasExtra("question_id"))
         {
-            type = intent.getStringExtra("quizz_type");
             quizz_id = Integer.parseInt(intent.getStringExtra("quizz_id"));
+            question_id = Integer.parseInt(intent.getStringExtra("question_id"));
         }
 
-        //Affecter l'adapter à recyclerview
+
+        //Récuperer les données depuis la BDD et l'afficher dans l'ecrans de modification
+        proposition = DB.propositionDao().getPropositionByQuestionid(question_id);
+        qst = DB.questionDao().getQuestionByid(question_id);
+        ETquestion.setText(qst.getQuestion());
+        ETreponse.setText(String.valueOf(qst.getReponse()));
+        propositions = proposition.getPropositions();
+        UpdatePropositionsFiled();
         recyclerView.setAdapter(Add_PropositionsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         new ItemTouchHelper(itemTouchHelperCallBack).attachToRecyclerView(recyclerView);
 
+
     }
 
-    //Click button Ajouter Question
+    //Click button Modifier Question
     public void AddNewQuestion(View view) {
-        //decl Variables
-        int question_id;
-        Long id,id1;
-
         //Récuperation des valeurs depuis les champs
         question = ETquestion.getText().toString();
         reponse1 = ETreponse.getText().toString();
@@ -89,26 +98,15 @@ public class AddQuestion extends AppCompatActivity {
             //Vérifier que la réponse et logique (de 1er proposition jusqu'a la dernière)
             if(reponse > 0 && reponse <= propositions.size())
             {
-                Question qs = DB.questionDao().getQuestion(question);
-
-                //Si la question n'existe pas dans la BDD en l'ajoute
-                if(qs == null )
-                {
-                    Question qst = new Question(question,reponse,propositions.size(),quizz_id);
-                    id1 = DB.questionDao().insert(qst);
-                    question_id = id1.intValue();
-                    Proposition prop = new Proposition(propositions,question_id);
-                    DB.propositionDao().insert(prop);
-                    Toast.makeText(this,"La Question a été ajouté avec succès", Toast.LENGTH_LONG).show();
-                    Intent returnIntent = new Intent();
-                    setResult(Activity.RESULT_OK,returnIntent);
-                    finish();
-                }
-                //Si la question existe pas dans la BDD en affiche un message pour l'user que la question existe déja
-                else  if(qs != null)
-                {
-                    Toast.makeText(this,"Question Existe déja !", Toast.LENGTH_LONG).show();
-                }
+                //Faire update de la question dans la BDD
+                DB.questionDao().updateQuestion(question,reponse,propositions.size(),question_id);
+                //Faire update des propositions de la question dans la BDD
+                Proposition newproposition= new Proposition(propositions,question_id,proposition.getId());
+                DB.propositionDao().updateProposition(newproposition);
+                //Afficher message que l'operation à été bien effectuer
+                Toast.makeText(this,"La Question a été modifier avec succès", Toast.LENGTH_LONG).show();
+                //Fermer l'activity ModifyQuestion
+                finish();
 
             }
             else
@@ -164,7 +162,6 @@ public class AddQuestion extends AppCompatActivity {
         recyclerView.setAdapter(Add_PropositionsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
     //OnSwip listner pour supprimer proposition on swipe
     ItemTouchHelper.SimpleCallback itemTouchHelperCallBack = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
         @Override
@@ -178,5 +175,5 @@ public class AddQuestion extends AppCompatActivity {
             Add_PropositionsAdapter.notifyDataSetChanged();
         }
     };
-}
 
+}

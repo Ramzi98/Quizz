@@ -68,14 +68,14 @@ public class QuizzsMangementAdapter extends RecyclerView.Adapter<QuizzsMangement
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.dialog_add_quizz);
                 dialog.setTitle("Modifier un Quizz");
+                final EditText edt = (EditText)dialog.findViewById(R.id.quizz_type_dialog);
+                edt.setText(quizzs.get(position).getType());
                 Button ModifierButton = (Button) dialog.findViewById(R.id.dialogButtonAjouter_quizz);
                 ModifierButton.setText("Modifier");
                 Button AnnulerButton = (Button) dialog.findViewById(R.id.dialogButtonEffacer_quizz);
-                //final EditText proposition = (EditText) findViewById(R.id.proposition_dialog);
                 ModifierButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText edt = (EditText)dialog.findViewById(R.id.quizz_type_dialog);
                         final String quizz_type= edt.getText().toString();
                         int id = quizzs.get(position).getId();
                         if(!quizz_type.equals(""))

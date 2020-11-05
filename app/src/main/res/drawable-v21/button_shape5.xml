@@ -11,11 +11,11 @@
         android:top="10dp" />
 
     <size
-        android:height="40dp"
+        android:height="50dp"
         android:width="270dp" />
     <gradient
         android:angle="45"
-        android:startColor="#E91E63"
-        android:endColor="#FF5722"
+        android:startColor="@android:color/holo_blue_dark"
+        android:endColor="@android:color/holo_blue_bright"
         android:type="linear"/>
 </shape>
