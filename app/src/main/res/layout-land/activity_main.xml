@@ -118,5 +118,4 @@
         android:onClick="Question_Suivante"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
-
 </RelativeLayout>
