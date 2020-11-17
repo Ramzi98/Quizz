@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Controller.Activity.Partie"
+    android:background="@android:color/primary_text_dark">
+    <RelativeLayout
+        android:id="@+id/ra_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/LA_base">
+
+            <LinearLayout
+                android:id="@+id/La"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/quizz_logo"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baumans"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:textColor="#4CAF50"/>
+
+                <TextView
+                    android:id="@+id/question_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/baumans"
+                    android:textColor="#06D3ED"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/question_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:text="La base de données est vide"
+                    android:fontFamily="@font/baumans"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_propositions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:textColor="#3F51B5"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/afficher_reponse_main"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="12dp"
+        android:text="Voir Réponse"
+        android:fontFamily="@font/baumans"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_shape3"
+        android:onClick="AfficherReponse"
+        android:layout_alignParentBottom="true" />
+
+    <Button
+        android:id="@+id/passer_main"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="15dp"
+        android:text="Suivante"
+        android:fontFamily="@font/baumans"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="@drawable/button_shape3"
+        android:onClick="Question_Suivante"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>
