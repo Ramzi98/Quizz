@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Home">
+        <activity android:name=".Controller.Activity.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,28 +17,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QuestionsManagement"
-            android:parentActivityName=".Partie"/>
+            android:name=".Controller.Activity.QuestionsManagement"
+            android:parentActivityName=".Controller.Activity.Partie"/>
         <activity
-            android:name=".AddQuestion" />
+            android:name=".Controller.Activity.AddQuestion" />
         <activity
-            android:name=".DisplayAnswer" />
+            android:name=".Controller.Activity.DisplayAnswer" />
         <activity
-            android:name=".Partie" />
+            android:name=".Controller.Activity.Partie" />
         <activity
-            android:name=".QuizzChoosed" />
+            android:name=".Controller.Activity.QuizzChoosed" />
         <activity
-            android:name=".QuizzsGestion" />
+            android:name=".Controller.Activity.QuizzsGestion" />
         <activity
-            android:name=".QuizzsList" />
+            android:name=".Controller.Activity.QuizzsList" />
         <activity
-            android:name=".DisplayAllQuizzs" />
+            android:name=".Controller.Activity.DisplayAllQuizzs" />
         <activity
-            android:name=".DisplayScore" />
+            android:name=".Controller.Activity.DisplayScore" />
         <activity
-            android:name=".DisplayScoresOfQuizz" />
+            android:name=".Controller.Activity.DisplayScoresOfQuizz" />
         <activity
-            android:name=".ModifyQuestion" />
+            android:name=".Controller.Activity.ModifyQuestion" />
 
         <meta-data
             android:name="preloaded_fonts"
