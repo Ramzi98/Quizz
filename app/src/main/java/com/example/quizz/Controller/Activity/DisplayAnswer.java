@@ -40,18 +40,18 @@ public class DisplayAnswer extends AppCompatActivity {
         if (intent.hasExtra("id"))
         {
             id1 = intent.getStringExtra("id");
-            id = Integer.valueOf(id1);
+            id = Integer.parseInt(id1);
         }
         //Vérifier si l'Intent a envoyer le variable reponse et le récuperer
         if (intent.hasExtra("reponse"))
         {
             id1 = intent.getStringExtra("reponse");
-            r = Integer.valueOf(id1);
+            r = Integer.parseInt(id1);
         }
 
         //Récuperation de question et reponse depuis la base de données
         question = DB.questionDao().getQuestionByid(id);
-        reponse = DB.propositionDao().getPropositionByQuestionid(id).getPropositions().get(r);
+        reponse = DB.propositionDao().getPropositionByQuestionid(id).getPropositions().get(r-1);
 
         //Affichage de la question
         Tquestion.setText(question.getQuestion());

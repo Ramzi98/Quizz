@@ -1,5 +1,6 @@
 package com.example.quizz.Controller.Activity;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -181,7 +182,7 @@ public class Partie extends AppCompatActivity {
         startActivity(score_intent);
 
         //Fermuture de l'activity courante
-        finish();
+        this.finish();
     }
 
     //Touch listner pour vérifier si user a choisi la bon réponse
@@ -286,5 +287,11 @@ public class Partie extends AppCompatActivity {
         }
     }
 
-
+    //Lors de click sur button back
+    @Override
+    public void onBackPressed() {
+        //Arrêter le timer
+        method_timer(false,0,timerTextView);
+        super.onBackPressed();
+    }
 }
