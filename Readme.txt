@@ -1,6 +1,16 @@
 L'application Quizzs est un jeu Android native construit avec le langage JAVA sur l’IDE Android Studio version 4.4.1 
 conçu pour fonctionner sur la plate-forme Android.
 
+Le système : Windows 10, IDE Android Studio version 4.4.1
+
+La version minimale de l'API visée :  SDK 19
+
+Le sdk utilisée : SDK 30
+
+Les librairies tierces utilisée : ROOM DATABASE
+
+Les permissions demandées : ACCESS_NETWORK, INTERNET
+
 Pour lancer l'application il faut suivre les étapes suivantes :
 
 1)	D’abord il faut télécharger Android Studio depuis le site suivant : https://developer.android.com/studio 
