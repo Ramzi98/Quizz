@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Controller.Activity.Partie"
-    android:background="@android:color/primary_text_dark">
+    android:background="#80FFFFFF">
     <RelativeLayout
         android:id="@+id/ra_top"
         android:layout_width="match_parent"

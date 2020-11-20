@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/primary_text_dark">
+    android:background="#80FFFFFF">
 
     <Button
         android:id="@+id/btn_quizz"
